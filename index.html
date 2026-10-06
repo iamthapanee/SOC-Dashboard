@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SOC Dashboard</title>
+  <style>
+    :root{
+      color-scheme:dark;
+      --bg:#08111f;
+      --panel:#0f1b2d;
+      --line:#20324d;
+      --text:#eef6ff;
+      --muted:#9eb0c9;
+      --accent:#62d6ff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:linear-gradient(180deg,#08111f,#0b1627);
+      color:var(--text);
+    }
+    header{
+      height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 24px;
+      border-bottom:1px solid var(--line);
+      background:rgba(8,17,31,.92);
+      backdrop-filter:blur(10px);
+      position:sticky;
+      top:0;
+      z-index:10;
+    }
+    .brand{
+      font-weight:800;
+      letter-spacing:.08em;
+    }
+    .status{
+      font-size:13px;
+      color:var(--muted);
+    }
+    main{
+      height:calc(100vh - 64px);
+      padding:16px;
+    }
+    .frame-wrap{
+      width:100%;
+      height:100%;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 20px 60px rgba(0,0,0,.28);
+    }
+    iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      background:#fff;
+    }
+    .empty{
+      height:100%;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:32px;
+    }
+    .empty-card{
+      max-width:620px;
+      padding:32px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#0b1728;
+    }
+    h1{
+      margin:0 0 12px;
+      font-size:28px;
+    }
+    p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+    }
+    code{
+      color:var(--accent);
+    }
+    @media (max-width:640px){
+      header{padding:0 16px}
+      main{padding:8px}
+      .frame-wrap{border-radius:12px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">SOC DASHBOARD</div>
+    <div class="status" id="status">GitHub Pages Wrapper</div>
+  </header>
+
+  <main>
+    <div class="frame-wrap" id="app"></div>
+  </main>
+
+  <script>
+    // KISS: ใส่ Apps Script Web App URL (/exec) ที่บรรทัดเดียวนี้
+    const APPS_SCRIPT_URL = "";
+
+    const app = document.getElementById("app");
+    const status = document.getElementById("status");
+
+    if (APPS_SCRIPT_URL) {
+      const iframe = document.createElement("iframe");
+      iframe.src = APPS_SCRIPT_URL;
+      iframe.title = "SOC Dashboard";
+      iframe.allow = "fullscreen";
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
+      app.appendChild(iframe);
+      status.textContent = "Connected";
+    } else {
+      app.innerHTML = `
+        <div class="empty">
+          <div class="empty-card">
+            <h1>พร้อมเชื่อม Apps Script แล้ว</h1>
+            <p>
+              ส่ง Web App URL ที่ลงท้ายด้วย <code>/exec</code> มาให้พี่แชท
+              แล้วจะใส่ให้ที่ตัวแปร <code>APPS_SCRIPT_URL</code> เพียงจุดเดียวค่ะ
+            </p>
+          </div>
+        </div>`;
+      status.textContent = "Waiting for Apps Script URL";
+    }
+  </script>
+</body>
+</html>
